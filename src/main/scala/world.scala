@@ -14,6 +14,15 @@ class TrainLine(city_1 :City, city_2 :City)
 
 class World
 {
-  var Cities :List[City] = List()
-  var Lines :List[TrainLine] = List()
+  var cities :List[City] = List()
+  var lines :List[TrainLine] = List()
+
+  def init() = {
+    var c1 = new City("Paris")
+    c1.coordinates = (200.0, 100.0)
+    var c2 = new City("Cachan")
+    c2.coordinates = (400.0, 300.0)
+    cities = List(c1, c2)
+    lines = List(new TrainLine(c1, c2))
+  }
 }

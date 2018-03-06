@@ -1,4 +1,8 @@
 import swing._
+import scala.swing.event._
+import java.awt.{Color,Graphics2D,BasicStroke}
+import java.awt.geom._
+
 
 class Menu(ui :UI)
 {
@@ -21,11 +25,34 @@ class MainMenu(ui :UI) extends Menu(ui :UI)
 
 class GameScreen(ui :UI) extends Menu(ui :UI)
 {
+  var world = new World
+  world.init
+
   mainFrame = new FlowPanel {
     contents += new BoxPanel(Orientation.Vertical) {
-      contents += new Label("Jeu en cours")
+      contents += new Canvas(world)
       contents += Swing.VStrut(50)
       contents += Button("Retour au menu") { ui.change_menu(new MainMenu(ui)) }
+    }
+  }
+}
+
+class Canvas(val world :World) extends Component
+{
+  preferredSize = new Dimension(500, 500)
+
+  override def paintComponent(g: Graphics2D)
+  {
+    val d = size
+    g.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING, java.awt.RenderingHints.VALUE_ANTIALIAS_ON)
+    g.setColor(Color.WHITE)
+    g.fillRect(0,0, d.width, d.height)
+
+    for (line <- world.lines)
+    {
+      g.setColor(Color.RED)
+      g.draw(new Line2D.Double(line.city1.coordinates._1, line.city1.coordinates._2,
+        line.city2.coordinates._1, line.city2.coordinates._2))
     }
   }
 }
