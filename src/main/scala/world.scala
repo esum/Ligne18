@@ -17,7 +17,7 @@ class World
   var cities :List[City] = List()
   var lines :List[TrainLine] = List()
 
-  def init() = {
+  def init() {
     var c1 = new City("Paris")
     c1.coordinates = (200.0f, 100.0f)
     var c2 = new City("Cachan")

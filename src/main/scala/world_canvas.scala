@@ -1,11 +1,26 @@
 import swing._
+import swing.event._
 import java.awt.{Color, Graphics2D, BasicStroke, Font}
 import java.awt.geom._
 
 
-class WorldCanvas(val world :World) extends Component
+class WorldCanvas(var world: World) extends Component
 {
   preferredSize = new Dimension(500, 500)
+
+  var city_info_id = 0
+
+  listenTo(mouse.clicks)
+  reactions += {
+    case MouseClicked(_, p, _, _, _) => mouseClicked(p.x, p.y)
+  }
+
+  private def mouseClicked(x: Int, y: Int)
+  {
+
+
+    repaint
+  }
 
   override def paintComponent(g: Graphics2D)
   {
