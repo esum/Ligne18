@@ -3,13 +3,14 @@ class City(city_name :String)
   var name = city_name
   var population = 0
   var waiting_passengers = 0
-  var coordinates = (0.0f, 0.0f)
+  var coordinates = new Vector(0.0f, 0.0f)
 }
 
 class TrainLine(city_1 :City, city_2 :City)
 {
   var city1 = city_1
   var city2 = city_2
+  var length = (city1.coordinates - city2.coordinates).length
 }
 
 class World
@@ -19,9 +20,9 @@ class World
 
   def init() {
     var c1 = new City("Paris")
-    c1.coordinates = (200.0f, 100.0f)
+    c1.coordinates = new Vector(0.0f, 0.0f)
     var c2 = new City("Cachan")
-    c2.coordinates = (400.0f, 300.0f)
+    c2.coordinates = new Vector(200.0f, 300.0f)
     cities = List(c1, c2)
     lines = List(new TrainLine(c1, c2))
   }

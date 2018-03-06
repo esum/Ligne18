@@ -33,18 +33,18 @@ class WorldCanvas(var world: World) extends Component
     {
       g.setColor(Color.BLACK)
       g.setStroke(new BasicStroke(2.0f))
-      g.draw(new Line2D.Float(line.city1.coordinates._1, line.city1.coordinates._2,
-        line.city2.coordinates._1, line.city2.coordinates._2))
+      g.draw(new Line2D.Float(line.city1.coordinates.x, line.city1.coordinates.y,
+        line.city2.coordinates.x, line.city2.coordinates.y))
       g.setStroke(new BasicStroke(1.0f))
     }
 
     for (city <- world.cities)
     {
       g.setColor(Color.BLUE)
-      g.fill(new Ellipse2D.Float(city.coordinates._1 - 5.0f, city.coordinates._2 - 5.0f, 10.0f, 10.0f))
+      g.fill(new Ellipse2D.Float(city.coordinates.x - 5.0f, city.coordinates.y - 5.0f, 10.0f, 10.0f))
       g.setColor(Color.BLACK)
       g.setFont(new Font("Monospaced", Font.BOLD, 15))
-      g.drawString(city.name, city.coordinates._1 + 10.0f, city.coordinates._2 - 10.0f)
+      g.drawString(city.name, city.coordinates.x + 10.0f, city.coordinates.y - 10.0f)
     }
   }
 }
