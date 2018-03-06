@@ -1,0 +1,32 @@
+import swing._
+import java.awt.{Color,Graphics2D,BasicStroke}
+import java.awt.geom._
+
+
+class WorldCanvas(val world :World) extends Component
+{
+  preferredSize = new Dimension(500, 500)
+
+  override def paintComponent(g: Graphics2D)
+  {
+    val d = size
+    g.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING, java.awt.RenderingHints.VALUE_ANTIALIAS_ON)
+    g.setColor(Color.WHITE)
+    g.fillRect(0, 0, d.width, d.height)
+
+    for (line <- world.lines)
+    {
+      g.setColor(Color.BLACK)
+      g.draw(new Line2D.Float(line.city1.coordinates._1, line.city1.coordinates._2,
+        line.city2.coordinates._1, line.city2.coordinates._2))
+    }
+
+    for (city <- world.cities)
+    {
+      g.setColor(Color.BLUE)
+      g.fill(new Ellipse2D.Float(city.coordinates._1 - 5.0f, city.coordinates._2 - 5.0f, 10.0f, 10.0f))
+      g.setColor(Color.BLACK)
+      g.drawString(city.name, city.coordinates._1 + 10.0f, city.coordinates._2 - 10.0f)
+    }
+  }
+}
