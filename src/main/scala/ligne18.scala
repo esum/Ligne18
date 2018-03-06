@@ -48,6 +48,12 @@ class Canvas(val world :World) extends Component
     g.setColor(Color.WHITE)
     g.fillRect(0,0, d.width, d.height)
 
+    for (city <- world.cities)
+    {
+      g.setColor(Color.BLACK)
+      g.drawString(city.name, city.coordinates._1.toFloat + 10.0f, city.coordinates._2.toFloat - 10.0f)
+    }
+
     for (line <- world.lines)
     {
       g.setColor(Color.RED)
