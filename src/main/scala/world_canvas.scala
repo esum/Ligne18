@@ -1,5 +1,5 @@
 import swing._
-import java.awt.{Color,Graphics2D,BasicStroke}
+import java.awt.{Color, Graphics2D, BasicStroke, Font}
 import java.awt.geom._
 
 
@@ -17,8 +17,10 @@ class WorldCanvas(val world :World) extends Component
     for (line <- world.lines)
     {
       g.setColor(Color.BLACK)
+      g.setStroke(new BasicStroke(2.0f))
       g.draw(new Line2D.Float(line.city1.coordinates._1, line.city1.coordinates._2,
         line.city2.coordinates._1, line.city2.coordinates._2))
+      g.setStroke(new BasicStroke(1.0f))
     }
 
     for (city <- world.cities)
@@ -26,6 +28,7 @@ class WorldCanvas(val world :World) extends Component
       g.setColor(Color.BLUE)
       g.fill(new Ellipse2D.Float(city.coordinates._1 - 5.0f, city.coordinates._2 - 5.0f, 10.0f, 10.0f))
       g.setColor(Color.BLACK)
+      g.setFont(new Font("Monospaced", Font.BOLD, 15))
       g.drawString(city.name, city.coordinates._1 + 10.0f, city.coordinates._2 - 10.0f)
     }
   }
