@@ -1,9 +1,20 @@
 class City(city_name :String)
 {
+  val id = City.next_id
   var name = city_name
   var population = 0
   var waiting_passengers = 0
   var coordinates = new Vector(0.0f, 0.0f)
+}
+
+object City
+{
+  var current_id = 0
+  def next_id(): Int =
+  {
+    current_id += 1
+    current_id
+  }
 }
 
 class TrainLine(city_1 :City, city_2 :City)
@@ -20,7 +31,7 @@ class World
 
   def init() {
     var c1 = new City("Paris")
-    c1.coordinates = new Vector(0.0f, 0.0f)
+    c1.coordinates = new Vector(100.0f, 100.0f)
     var c2 = new City("Cachan")
     c2.coordinates = new Vector(200.0f, 300.0f)
     cities = List(c1, c2)

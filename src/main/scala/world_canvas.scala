@@ -1,3 +1,4 @@
+import math.{min, max}
 import swing._
 import swing.event._
 import java.awt.{Color, Graphics2D, BasicStroke, Font}
@@ -12,12 +13,17 @@ class WorldCanvas(var world: World) extends Component
 
   listenTo(mouse.clicks)
   reactions += {
-    case MouseClicked(_, p, _, _, _) => mouseClicked(p.x, p.y)
+    case MouseClicked(_, p, _, _, _) => mouseClicked(new Vector(p.x.toFloat, p.y.toFloat))
   }
 
-  private def mouseClicked(x: Int, y: Int)
+  private def mouseClicked(mouse_pos: Vector)
   {
-
+    city_info_id = 0
+    for (c <- world.cities)
+    {
+      if ((c.coordinates - mouse_pos).length < 10.0f)
+        city_info_id = c.id
+    }
 
     repaint
   }
@@ -27,7 +33,7 @@ class WorldCanvas(var world: World) extends Component
     val d = size
     g.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING, java.awt.RenderingHints.VALUE_ANTIALIAS_ON)
     g.setColor(Color.WHITE)
-    g.fillRect(0, 0, d.width, d.height)
+    g.fill(new Rectangle(0, 0, d.width, d.height))
 
     for (line <- world.lines)
     {
@@ -38,13 +44,45 @@ class WorldCanvas(var world: World) extends Component
       g.setStroke(new BasicStroke(1.0f))
     }
 
+    g.setFont(new Font("Monospaced", Font.BOLD, 15))
     for (city <- world.cities)
     {
-      g.setColor(Color.BLUE)
+      if (city.id == city_info_id)
+        g.setColor(Color.RED)
+      else
+        g.setColor(Color.BLUE)
       g.fill(new Ellipse2D.Float(city.coordinates.x - 5.0f, city.coordinates.y - 5.0f, 10.0f, 10.0f))
-      g.setColor(Color.BLACK)
-      g.setFont(new Font("Monospaced", Font.BOLD, 15))
-      g.drawString(city.name, city.coordinates.x + 10.0f, city.coordinates.y - 10.0f)
+
+      if (city.id != city_info_id)
+      {
+        g.setColor(Color.BLACK)
+        g.drawString(city.name, city.coordinates.x + 10.0f, city.coordinates.y - 10.0f)
+      }
+    }
+
+    val city_opt =  world.cities.find((city: City) => city.id == city_info_id)
+    city_opt match
+    {
+      case None =>
+      case Some(city) => {
+        g.setFont(new Font("Monospaced", Font.PLAIN, 12))
+        val name_text = "Name: " + city.name
+        val pop_text = "Population: " + city.population.toString
+        val width = max(g.getFontMetrics.stringWidth(name_text), g.getFontMetrics.stringWidth(pop_text))
+        val height = g.getFontMetrics.getHeight
+        var bounds = new Rectangle(
+          max(city.coordinates.x.toInt + 10, 0),
+          max(city.coordinates.y.toInt - 2 * height - 10, 0),
+          width + 10, 2 * height + 10)
+
+        g.setColor(Color.WHITE)
+        g.fill(bounds)
+        g.setColor(Color.BLACK)
+        g.draw(bounds)
+
+        g.drawString(name_text, city.coordinates.x + 15.0f, city.coordinates.y - height - 10.0f)
+        g.drawString(pop_text, city.coordinates.x + 15.0f, city.coordinates.y - 5.0f)
+      }
     }
   }
 }
