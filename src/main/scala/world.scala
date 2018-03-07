@@ -39,12 +39,17 @@ class World
     var c2 = new City("Cachan")
     c2.coordinates = new Vector(200.0f, 300.0f)
     cities = List(c1, c2)
-    lines = List(new TrainLine(c1, c2))
+    var l = new TrainLine(c1, c2)
+    lines = List(l)
+    var t = new Train(l)
+    t.progress = 0.25f * l.length
+    t.speed = 10.0f
+    trains = List(t)
   }
 
   def tick() {
     for (train <- trains) {
-      
+
       // Update train positions
       train.progress += train.speed
 
@@ -61,7 +66,7 @@ class World
           train.passengers = min(train.max_passengers, train.line.city1.waiting_passengers)
           train.line.city1.waiting_passengers = train.line.city1.waiting_passengers - train.max_passengers
         }
-        
+
         train.orientation = !train.orientation
       }
     }

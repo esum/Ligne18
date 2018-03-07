@@ -89,15 +89,20 @@ class WorldCanvas(var world: World) extends Component
     {
       var position = new Vector()
       if (train.orientation) {
-        position = (train.line.city2.coordinates - train.line.city1.coordinates) * (train.progress / train.line.length) + train.line.city1.coordinates
+        position = (train.line.city2.coordinates - train.line.city1.coordinates) *
+          (train.progress / train.line.length) + train.line.city1.coordinates
       }
       else
       {
-        position = (train.line.city1.coordinates - train.line.city2.coordinates) * (train.progress / train.line.length) + train.line.city2.coordinates
+        position = (train.line.city1.coordinates - train.line.city2.coordinates) *
+          (train.progress / train.line.length) + train.line.city2.coordinates
       }
 
-      g.setColor(Color.BLUE)
-      g.fill(new Ellipse2D.Float(position.x - 1.0f, position.y - 1.0f, 2.0f, 2.0f))
+      g.setColor(Color.GREEN)
+      g.fill(new Ellipse2D.Float(position.x - 3.0f, position.y - 3.0f, 6.0f, 6.0f))
+      g.setColor(Color.BLACK)
+      g.draw(new Ellipse2D.Float(position.x - 3.0f, position.y - 3.0f, 6.0f, 6.0f))
+
     }
   }
 }

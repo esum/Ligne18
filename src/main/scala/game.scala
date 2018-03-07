@@ -9,14 +9,17 @@ class GameScreen(ui :UI) extends Menu(ui :UI)
   val update_timer = new Timer(1000, { update }, true)
   update_timer.start
 
+  val world_canvas = new WorldCanvas(world)
+
   def update()
   {
-    println("Update")
+    world.tick
+    world_canvas.repaint
   }
 
   mainFrame = new FlowPanel {
     contents += new BoxPanel(Orientation.Vertical) {
-      contents += new WorldCanvas(world)
+      contents += world_canvas
       contents += Swing.VStrut(50)
       contents += Button("Retour au menu") {
         update_timer.stop
