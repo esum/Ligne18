@@ -1,3 +1,6 @@
+import math.min
+
+
 class City(city_name :String)
 {
   var name = city_name

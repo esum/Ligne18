@@ -49,7 +49,7 @@ class WorldCanvas(var world: World) extends Component
 
     for (train <- world.trains)
     {
-      position = new Vector()
+      var position = new Vector()
       if (train.orientation) {
         position = (train.line.city2.coordinates - train.line.city1.coordinates) * (train.progress / train.line.length) + train.line.city1.coordinates
       }
