@@ -29,9 +29,9 @@ class TrainLine(city_1 :City, city_2 :City)
 
 class World
 {
-  var cities :List[City] = List()
-  var lines :List[TrainLine] = List()
-  var trains :List[Train] = List()
+  var cities: List[City] = List()
+  var lines: List[TrainLine] = List()
+  var trains: List[Train] = List()
 
   def init() {
     var c1 = new City("Paris")
@@ -42,27 +42,27 @@ class World
     var l = new TrainLine(c1, c2)
     lines = List(l)
     var t = new Train(l)
-    t.progress = 0.25f * l.length
-    t.speed = 10.0f
+    t.progress = 0.0f
+    t.speed = 1.0f
     trains = List(t)
   }
 
   def tick() {
-    for (train <- trains) {
-
-      // Update train positions
+    for (train <- trains) // Update train positions
+    {
       train.progress += train.speed
-
-      if (train.progress >= train.line.length) {
-
+      if (train.progress >= train.line.length)
+      {
         train.progress = train.line.length
         train.passengers = 0
 
-        if (train.orientation) {
+        if (train.orientation)
+        {
           train.passengers = min(train.max_passengers, train.line.city2.waiting_passengers)
           train.line.city2.waiting_passengers = train.line.city2.waiting_passengers - train.max_passengers
         }
-        else {
+        else
+        {
           train.passengers = min(train.max_passengers, train.line.city1.waiting_passengers)
           train.line.city1.waiting_passengers = train.line.city1.waiting_passengers - train.max_passengers
         }

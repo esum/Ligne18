@@ -6,7 +6,7 @@ class GameScreen(ui :UI) extends Menu(ui :UI)
   var world = new World
   world.init
 
-  val update_timer = new Timer(1000, { update }, true)
+  val update_timer = new Timer(100, { update }, true)
   update_timer.start
 
   val world_canvas = new WorldCanvas(world)
