@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
+
 class WorldCanvas(var world: World) extends Component
 {
   preferredSize = new Dimension(500, 500)

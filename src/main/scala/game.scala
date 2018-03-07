@@ -10,6 +10,10 @@ class GameScreen(ui :UI) extends Menu(ui :UI)
   update_timer.start
 
   val world_canvas = new WorldCanvas(world)
+  val back_to_menu = Button("Retour au menu") {
+    update_timer.stop
+    ui.change_menu(new MainMenu(ui))
+  }
 
   def update()
   {
@@ -18,13 +22,9 @@ class GameScreen(ui :UI) extends Menu(ui :UI)
   }
 
   mainFrame = new FlowPanel {
-    contents += new BoxPanel(Orientation.Vertical) {
-      contents += world_canvas
-      contents += Swing.VStrut(50)
-      contents += Button("Retour au menu") {
-        update_timer.stop
-        ui.change_menu(new MainMenu(ui))
-      }
+    contents += new BorderPanel {
+      layout(world_canvas) = BorderPanel.Position.Center
+      layout(back_to_menu) = BorderPanel.Position.South
     }
   }
 }
