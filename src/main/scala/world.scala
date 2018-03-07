@@ -1,4 +1,5 @@
-import math.min
+import math.round
+import util.Random
 
 
 class City(city_name :String)
@@ -8,6 +9,13 @@ class City(city_name :String)
   var population = 0
   var waiting_passengers = 0
   var coordinates = new Vector(0.0f, 0.0f)
+  var rand = new Random()
+  var max_population_spawn = 1.0f
+
+
+  def tick () {
+    waiting_passengers += round(rand.nextFloat * max_population_spawn)
+  }
 }
 
 object City
@@ -49,26 +57,11 @@ class World
 
   def tick() {
     for (train <- trains) {
+      train.tick
+    }
 
-      // Update train positions
-      train.progress += train.speed
-
-      if (train.progress >= train.line.length) {
-
-        train.progress = train.line.length
-        train.passengers = 0
-
-        if (train.orientation) {
-          train.passengers = min(train.max_passengers, train.line.city2.waiting_passengers)
-          train.line.city2.waiting_passengers = train.line.city2.waiting_passengers - train.max_passengers
-        }
-        else {
-          train.passengers = min(train.max_passengers, train.line.city1.waiting_passengers)
-          train.line.city1.waiting_passengers = train.line.city1.waiting_passengers - train.max_passengers
-        }
-
-        train.orientation = !train.orientation
-      }
+    for (city <- cities) {
+      city.tick
     }
   }
 }
