@@ -33,9 +33,12 @@ class World
       
       // Update train positions
       train.progress += train.speed
+
       if (train.progress >= train.line.length) {
+
         train.progress = train.line.length
         train.passengers = 0
+
         if (train.orientation) {
           train.passengers = min(train.max_passengers, train.line.city2.waiting_passengers)
           train.line.city2.waiting_passengers = train.line.city2.waiting_passengers - train.max_passengers
@@ -44,6 +47,7 @@ class World
           train.passengers = min(train.max_passengers, train.line.city1.waiting_passengers)
           train.line.city1.waiting_passengers = train.line.city1.waiting_passengers - train.max_passengers
         }
+        
         train.orientation = !train.orientation
       }
     }
