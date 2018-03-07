@@ -22,11 +22,11 @@ class Train(train_line :TrainLine, train_orientation :Boolean = true)
 
       if (orientation) {
         passengers = min(max_passengers, line.city2.waiting_passengers)
-        line.city2.waiting_passengers = line.city2.waiting_passengers - max_passengers
+        line.city2.waiting_passengers = line.city2.waiting_passengers - passengers
       }
       else {
         passengers = min(max_passengers, line.city1.waiting_passengers)
-        line.city1.waiting_passengers = line.city1.waiting_passengers - max_passengers
+        line.city1.waiting_passengers = line.city1.waiting_passengers - passengers
       }
 
       money.value = money.value + (passengers.toFloat * price)
