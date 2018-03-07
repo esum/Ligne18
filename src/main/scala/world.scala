@@ -12,7 +12,6 @@ class City(city_name :String)
   var rand = new Random()
   var max_population_spawn = 1.0f
 
-
   def tick () {
     waiting_passengers += round(rand.nextFloat * max_population_spawn)
   }
@@ -40,6 +39,7 @@ class World
   var cities :List[City] = List()
   var lines :List[TrainLine] = List()
   var trains :List[Train] = List()
+  var money = new Mutable(0.0f)
 
   def init() {
     var c1 = new City("Paris")
@@ -57,7 +57,7 @@ class World
 
   def tick() {
     for (train <- trains) {
-      train.tick
+      train.tick(money)
     }
 
     for (city <- cities) {
