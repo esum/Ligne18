@@ -1,10 +1,15 @@
 import swing._
+import java.awt.image.BufferedImage
+import java.io.File
+import javax.imageio.ImageIO
 
 
 class UI extends MainFrame
 {
   title = "Ligne 18"
   preferredSize = new Dimension(800, 600)
+
+  iconImage = ImageIO.read(new File("src/main/resources/icon.png"))
 
   var menu = new Menu(this)
 

@@ -3,7 +3,7 @@ import swing._
 
 class Menu(ui :UI)
 {
-  var mainFrame = new FlowPanel
+  var mainFrame: Component = new FlowPanel
 }
 
 class MainMenu(ui :UI) extends Menu(ui :UI)
