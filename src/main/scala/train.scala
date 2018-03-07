@@ -9,8 +9,9 @@ class Train(train_line :TrainLine, train_orientation :Boolean = true)
   var max_passengers = 1
   var progress = 0.0f
   var speed = 1.0f
+  var price = 1.0f
 
-  def tick () {
+  def tick (money :Mutable[Float]) {
     // Update train positions
     progress += speed
 
@@ -27,6 +28,8 @@ class Train(train_line :TrainLine, train_orientation :Boolean = true)
         passengers = min(max_passengers, line.city1.waiting_passengers)
         line.city1.waiting_passengers = line.city1.waiting_passengers - max_passengers
       }
+
+      money.value = money.value + (passengers.toFloat * price)
 
       orientation = !orientation
     }
