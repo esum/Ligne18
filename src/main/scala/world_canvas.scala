@@ -10,7 +10,7 @@ import javax.imageio.ImageIO
 
 class WorldCanvas(var world: World) extends Component
 {
-  preferredSize = new Dimension(500, 500)
+  preferredSize = new Dimension(world.width, world.height)
 
   val train_img = ImageIO.read(new File("src/main/resources/train.png"))
 
