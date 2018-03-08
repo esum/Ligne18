@@ -43,7 +43,6 @@ class WorldCanvas(var world: World) extends Component
     paintLines(g)
     paintCities(g)
     paintTrains(g)
-    paintTooltip(g)
   }
 
   def paintLines(g: Graphics2D) {
@@ -95,33 +94,6 @@ class WorldCanvas(var world: World) extends Component
       {
         g.setColor(Color.BLACK)
         g.drawString(city.name, city.coordinates.x + 10.0f, city.coordinates.y - 10.0f)
-      }
-    }
-  }
-
-  def paintTooltip(g: Graphics2D) {
-    val city_opt =  world.cities.find((city: City) => city.id == city_info_id)
-    city_opt match
-    {
-      case None =>
-      case Some(city) => {
-        g.setFont(new Font("Monospaced", Font.PLAIN, 12))
-        val name_text = "Name: " + city.name
-        val pop_text = "Population: " + city.population.toString
-        val width = max(g.getFontMetrics.stringWidth(name_text), g.getFontMetrics.stringWidth(pop_text))
-        val height = g.getFontMetrics.getHeight
-        var bounds = new Rectangle(
-          max(city.coordinates.x.toInt + 10, 0),
-          max(city.coordinates.y.toInt - 2 * height - 10, 0),
-          width + 10, 2 * height + 10)
-
-        g.setColor(Color.WHITE)
-        g.fill(bounds)
-        g.setColor(Color.BLACK)
-        g.draw(bounds)
-
-        g.drawString(name_text, city.coordinates.x + 15.0f, city.coordinates.y - height - 10.0f)
-        g.drawString(pop_text, city.coordinates.x + 15.0f, city.coordinates.y - 5.0f)
       }
     }
   }

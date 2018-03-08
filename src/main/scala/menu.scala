@@ -1,4 +1,5 @@
 import swing._
+import java.awt.Font
 
 
 class Menu(ui :UI)
@@ -8,14 +9,19 @@ class Menu(ui :UI)
 
 class MainMenu(ui :UI) extends Menu(ui :UI)
 {
-  mainFrame = new FlowPanel {
-    contents += new BoxPanel(Orientation.Vertical)
-    {
-      contents += new Label("Ligne 18")
-      contents += Swing.VStrut(50)
-      contents += Button("Play") { ui.change_menu(new GameScreen(ui)) }
-      contents += Swing.VStrut(20)
-      contents += Button("Quit") { sys.exit(0) }
-    }
+  val title = new Label("Ligne 18")
+  title.font = new Font("Monospaced", Font.PLAIN, 40)
+
+  val play = Button("Play") { ui.change_menu(new GameScreen(ui)) }
+  play.preferredSize = new Dimension(150, 50)
+
+  val quit = Button("Quit") { sys.exit(0) }
+  quit.preferredSize = new Dimension(150, 50)
+
+  mainFrame = new GridPanel(5, 1) {
+    contents += Swing.Glue
+    contents += new FlowPanel { contents += title }
+    contents += new FlowPanel { contents += play }
+    contents += new FlowPanel { contents += quit }
   }
 }
