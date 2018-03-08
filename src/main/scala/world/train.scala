@@ -22,21 +22,23 @@ class Train(train_line: TrainLine, train_orientation: Boolean = true)
 
       progress = 0
       passengers = 0
-
-      if (orientation) {
-        passengers = min(max_passengers, floor(line.city2.waiting_passengers).toInt)
-        line.city2.waiting_passengers = line.city2.waiting_passengers - passengers.toFloat
-      }
-
-      else {
-        passengers = min(max_passengers, floor(line.city1.waiting_passengers).toInt)
-        line.city1.waiting_passengers = line.city1.waiting_passengers - passengers.toFloat
-      }
-
-      money.value = money.value + (passengers.toFloat * price)
-
       orientation = !orientation
+
+      fill(money)
     }
+  }
+
+  def fill(money: Mutable[Float])
+  {
+    if (orientation) {
+      passengers = min(max_passengers, floor(line.city1.waiting_passengers).toInt)
+      line.city1.waiting_passengers = line.city1.waiting_passengers - passengers.toFloat
+    }
+    else {
+      passengers = min(max_passengers, floor(line.city2.waiting_passengers).toInt)
+      line.city2.waiting_passengers = line.city2.waiting_passengers - passengers.toFloat
+    }
+    money.value = money.value + (passengers.toFloat * price * line.length / 100.0f)
   }
 }
 
@@ -44,7 +46,5 @@ object Train
 {
   var id = 0
 
-  def next_id(): Int = {
-    id += 1; id
-  }
+  def next_id(): Int = { id += 1; id }
 }

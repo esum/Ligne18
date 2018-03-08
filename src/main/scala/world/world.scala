@@ -14,11 +14,11 @@ class World
   var max_line_length = (width + height).toFloat * 0.175f
   var max_new_lines = 3
 
-  var money = new Mutable(0.0f)
+  var money = new Mutable(900.0f)
 
   var generating = true
   var city_probability = 0.0f
-  var city_probability_increase = 0.0002f
+  var city_probability_increase = 0.00005f
   var max_city = 15
 
   var city_max_population = 5000
@@ -27,17 +27,15 @@ class World
   var rand = new Random()
 
   def init() {
-    var c1 = new City("Paris")
+    val c1 = new City("Paris")
     c1.coordinates = new Vector(100.0f, 100.0f)
-    var c2 = new City("Cachan")
+    c1.waiting_passengers = 50.0f
+    val c2 = new City("Cachan")
     c2.coordinates = new Vector(200.0f, 300.0f)
+    c2.waiting_passengers = 50.0f
     cities = List(c1, c2)
-    var l = new TrainLine(c1, c2)
+    val l = new TrainLine(c1, c2)
     lines = List(l)
-    var t = new Train(l)
-    t.progress = 0.0f
-    t.speed = 1.0f
-    trains = List(t)
   }
 
   def tick()
@@ -47,7 +45,7 @@ class World
 
     for (city <- cities)
       city.tick
-    
+
     if (generating) {
       var p = rand.nextFloat
 
@@ -63,7 +61,7 @@ class World
             var coordinates = new Vector(rand.nextFloat * width.toFloat, rand.nextFloat * height.toFloat)
             var keep_city = true
             var city_too_far = true
-            
+
             for (city <- cities) {
               if ((city.coordinates - coordinates).length < city_spacing)
                 keep_city = false
@@ -80,7 +78,7 @@ class World
           if (tries >= 10)
             generating = false
         }
-        
+
         if (generating)
         {
           var new_city = new City("", new_cities(rand.nextInt(new_cities.length)))
@@ -92,7 +90,7 @@ class World
           for (city <- cities)
             if ((city.coordinates - new_city.coordinates).length <= max_line_length)
               new_lines = new_lines ++ List(new TrainLine(city, new_city))
-          
+
           var new_lines_number = 0
 
           for (i <- 0 to rand.nextInt(min(max_new_lines, new_lines.length))) {
@@ -110,6 +108,5 @@ class World
         city_probability += city_probability_increase
     }
   }
-
 
 }

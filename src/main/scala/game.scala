@@ -43,11 +43,9 @@ class GameScreen(ui :UI) extends Menu(ui :UI)
       contents += passengers
       contents += progress
       contents += speed
-      contents += affect_line
+      //contents += affect_line
     }
   }
-
-  val add_train = Button("Build new train") {}
 
   val city_info = new BoxPanel(Orientation.Vertical) {
     var city_name = new Label("")
@@ -60,11 +58,61 @@ class GameScreen(ui :UI) extends Menu(ui :UI)
     }
   }
 
+  val new_train = new GridPanel(1, 2) {
+    contents += Button("Buy new train")
+    {
+      val new_train_dialog = new Dialog(ui)
+      new_train_dialog.minimumSize = new Dimension(400, 200)
+      new_train_dialog.maximumSize = new Dimension(400, 200)
+      new_train_dialog.preferredSize = new Dimension(400, 200)
+      new_train_dialog.visible = true
+      new_train_dialog.open
+      new_train_dialog.contents = new GridPanel(5, 2)
+      {
+        val lines = new ComboBox(world.lines)
+        val error = new Label("")
+        contents += new Label("Train engine")
+        contents += new ComboBox(List("Engine #1"))
+        contents += new Label("Passenger carriage")
+        contents += new ComboBox(List("Passenger carriage #1"))
+        contents += new Label("Line")
+        contents += lines
+        contents += new Label("Price: 500₿")
+        contents += Button("Buy train")
+        {
+          val line_opt = world.lines.find((line: TrainLine) => line.id == lines.selection.item.id)
+          line_opt match {
+            case None => new_train_dialog.close()
+            case Some(l) => {
+              if (world.money.value >= 500.0f)
+              {
+                val t = new Train(l)
+                t.progress = 0.0f
+                t.speed = 1.0f
+                t.fill(world.money)
+                world.trains = t :: world.trains
+                world.money.value -= 500
+                display_train_list
+                new_train_dialog.close()
+              }
+              else
+              {
+                error.text = "Not enough money!"
+              }
+            }
+          }
+        }
+        contents += error
+        contents += Button("Quit") { new_train_dialog.close() }
+      }
+    }
+  }
+
   info_left.contents += train_list
   info_left.contents += train_info
-  info_left.contents += add_train
   info_left.contents += city_info
   info_left.contents += Swing.Glue
+  info_left.contents += new_train
 
   display_train_list
   display_train
@@ -87,9 +135,15 @@ class GameScreen(ui :UI) extends Menu(ui :UI)
 
   def display_train()
   {
-    val train_opt =  world.trains.find((train: Train) => train.id == train_list.list.selection.item.id)
+    val train_opt = world.trains.find((train: Train) => train.id == train_list.list.selection.item.id)
     train_opt match {
-      case None =>
+      case None => {
+        train_info.line.text = " "
+        train_info.passengers.text = " "
+        train_info.progress.text = " "
+        train_info.speed.text = " "
+        train_info.border = Swing.TitledBorder(Swing.LineBorder(Color.BLACK, 2), "No train selected")
+      }
       case Some(train) => {
         if (train.orientation)
           train_info.line.text = train.line.city1.name + " → " + train.line.city2.name
