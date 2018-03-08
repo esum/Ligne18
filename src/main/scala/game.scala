@@ -108,15 +108,15 @@ class GameScreen(ui :UI) extends Menu(ui :UI)
     val city_opt =  world.cities.find((city: City) => city.id == world_canvas.city_info_id)
     city_opt match {
       case None => {
-        city_info.city_name.text = ""
-        city_info.population.text = ""
-        city_info.waiting_passengers.text = ""
+        city_info.city_name.text = " "
+        city_info.population.text = " "
+        city_info.waiting_passengers.text = " "
         city_info.border = Swing.TitledBorder(Swing.LineBorder(Color.BLUE, 2), "No city selected")
       }
       case Some(city) => {
         city_info.city_name.text = city.name
         city_info.population.text = "Population: " + city.population.toString
-        city_info.waiting_passengers.text = "Waiting passengers: " + city.waiting_passengers.toString
+        city_info.waiting_passengers.text = "Waiting passengers: %.0f".format(city.waiting_passengers)
         city_info.border = Swing.TitledBorder(Swing.LineBorder(Color.BLUE, 2), "City: " + city.name)
       }
     }

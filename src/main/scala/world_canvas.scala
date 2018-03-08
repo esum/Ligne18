@@ -89,12 +89,8 @@ class WorldCanvas(var world: World) extends Component
       else
         g.setColor(Color.BLUE)
       g.fill(new Ellipse2D.Float(city.coordinates.x - 5.0f, city.coordinates.y - 5.0f, 10.0f, 10.0f))
-
-      if (city.id != city_info_id)
-      {
-        g.setColor(Color.BLACK)
-        g.drawString(city.name, city.coordinates.x + 10.0f, city.coordinates.y - 10.0f)
-      }
+      g.setColor(Color.BLACK)
+      g.drawString(city.name, city.coordinates.x + 10.0f, city.coordinates.y - 10.0f)
     }
   }
 }
